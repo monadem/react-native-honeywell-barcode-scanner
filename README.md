@@ -33,15 +33,15 @@
 
 
 ​```javascript
-import { getCodeData } from "react-native-honeywell-barcode-scanner";
+import { getCodeData, destroyListener } from "react-native-honeywell-barcode-scanner";
 
-//use this method whenever you need it
+//Use this method whenever you need it.
 
 getCodeData( ( data ) => {
       ...
     })
     
-//use this method to destroy all listeners
+//Use this method to destroy all listeners.
 destroyListener();
    ```
 
