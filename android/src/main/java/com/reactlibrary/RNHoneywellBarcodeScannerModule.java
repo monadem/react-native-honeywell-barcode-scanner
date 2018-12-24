@@ -27,8 +27,8 @@ import com.honeywell.aidc.UnsupportedPropertyException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RNHoneywellBarcodeScannerModule extends ReactContextBaseJavaModule implements BarcodeReader.BarcodeListener,
-    BarcodeReader.TriggerListener {
+public class RNHoneywellBarcodeScannerModule extends ReactContextBaseJavaModule
+    implements BarcodeReader.BarcodeListener, BarcodeReader.TriggerListener {
 
     private final ReactApplicationContext reactContext;
     private BarcodeReader reader;
@@ -40,7 +40,9 @@ public class RNHoneywellBarcodeScannerModule extends ReactContextBaseJavaModule 
         super( reactContext );
         this.reactContext = reactContext;
 
-		AidcManager.create( RNHoneywellBarcodeScannerModule.this.reactContext, new AidcManager.CreatedCallback() {
+		AidcManager.create(
+            RNHoneywellBarcodeScannerModule.this.reactContext, 
+            new AidcManager.CreatedCallback() {
 
             @Override
             public void onCreated( AidcManager aidcManager ) {
@@ -51,8 +53,11 @@ public class RNHoneywellBarcodeScannerModule extends ReactContextBaseJavaModule 
                     if( reader != null ) {
                         reader.claim();
                     }
-                    reader.setProperty( BarcodeReader.PROPERTY_TRIGGER_CONTROL_MODE,
-                            BarcodeReader.TRIGGER_CONTROL_MODE_CLIENT_CONTROL );
+
+                    reader.setProperty( 
+                        BarcodeReader.PROPERTY_TRIGGER_CONTROL_MODE,
+                        BarcodeReader.TRIGGER_CONTROL_MODE_CLIENT_CONTROL 
+                        );
                 } catch ( ScannerUnavailableException e ) {
                     e.printStackTrace();
                 } catch ( UnsupportedPropertyException e ) {
@@ -101,7 +106,7 @@ public class RNHoneywellBarcodeScannerModule extends ReactContextBaseJavaModule 
     @Override
     public void onFailureEvent( BarcodeFailureEvent barcodeFailureEvent ) {
         this.reactContext.getJSModule( DeviceEventManagerModule.RCTDeviceEventEmitter.class )
-                .emit( "io.ibsgroup.codeCaptured", "Error" );
+                .emit( "io.ibsgroup.codeCaptured", false );
     }
 
     @Override

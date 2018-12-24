@@ -10,10 +10,11 @@ import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
 import com.facebook.react.bridge.JavaScriptModule;
+
 public class RNHoneywellBarcodeScannerPackage implements ReactPackage {
     @Override
-    public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-      return Arrays.<NativeModule>asList(new RNHoneywellBarcodeScannerModule(reactContext));
+    public List<NativeModule> createNativeModules( ReactApplicationContext reactContext ) {
+      return Arrays.<NativeModule>asList( new RNHoneywellBarcodeScannerModule( reactContext ) );
     }
 
     // Deprecated from RN 0.47
@@ -22,7 +23,7 @@ public class RNHoneywellBarcodeScannerPackage implements ReactPackage {
     }
 
     @Override
-    public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
+    public List<ViewManager> createViewManagers( ReactApplicationContext reactContext ) {
       return Collections.emptyList();
     }
 }

@@ -12,11 +12,11 @@ const barCodeScanned = ( callback ) => {
 
 /** This method removes all the codebar sensor listeners. */
 
-const detroyListeners = () => {
+const destroyListeners = () => {
     DeviceEventEmitter.removeAllListeners( "io.ibsgroup.codeCaptured" );
 };
 
 module.exports = {
     barCodeScanned,
-    detroyListeners
+    destroyListeners
 };
