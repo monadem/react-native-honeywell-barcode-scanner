@@ -16,7 +16,25 @@ const destroyListeners = () => {
     DeviceEventEmitter.removeAllListeners( "io.ibsgroup.codeCaptured" );
 };
 
+/** This method sets the bar code reader to automatic mode.  */
+
+const setAutomaticMode = () => { 
+    NativeModules.RNHoneywellBarcodeScanner.setReaderMode(
+        NativeModules.RNHoneywellBarcodeScanner.AUTOMATIC 
+    );
+};
+
+/** This method sets the bar code reader to manual mode.  */
+
+const setManualMode = () => {
+    NativeModules.RNHoneywellBarcodeScanner.setReaderMode(
+        NativeModules.RNHoneywellBarcodeScanner.MANUAL 
+    );
+};
+
 module.exports = {
     barCodeScanned,
-    destroyListeners
+    destroyListeners,
+    setAutomaticMode,
+    setManualMode
 };

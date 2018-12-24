@@ -33,7 +33,12 @@
 
 
 ​```javascript
-import { getCodeData, destroyListener } from "react-native-honeywell-barcode-scanner";
+import { getCodeData,
+		 destroyListener, 
+		 setAutomaticMode, 
+		 setManualMode
+         } 
+ from "react-native-honeywell-barcode-scanner";
 
 //Use this method whenever you need it.
 
@@ -43,6 +48,12 @@ getCodeData( ( data ) => {
     
 //Use this method to destroy all listeners.
 destroyListener();
+
+//Use this method to set the bar code reader into manual mode.
+setManualMode();
+
+//Use this method to set the bar code reader into automatic mode.
+setAutomaticMode();
    ```
 
 ### More configuration:

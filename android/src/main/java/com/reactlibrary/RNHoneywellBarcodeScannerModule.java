@@ -34,7 +34,10 @@ public class RNHoneywellBarcodeScannerModule extends ReactContextBaseJavaModule
     private BarcodeReader reader;
     private AidcManager manager;
     private boolean triggerState = false;
-    String barcodeData;
+    private String barcodeData;
+
+    private static final String AUTOMATIC_CONTROL = "AUTOMATIC";
+    private static final String MANUAL_CONTROL = "MANUAL";
 
     public RNHoneywellBarcodeScannerModule( ReactApplicationContext reactContext ) {
         super( reactContext );
@@ -88,6 +91,23 @@ public class RNHoneywellBarcodeScannerModule extends ReactContextBaseJavaModule
 
             }
         } );
+    }
+
+    @Override
+    public Map<String, Object> getConstants() {
+        final Map<String, Object> constants = new HashMap<>();
+        constants.put( MANUAL_CONTROL, BarcodeReader.TRIGGER_CONTROL_MODE_CLIENT_CONTROL );
+        constants.put( AUTOMATIC_CONTROL, BarcodeReader.TRIGGER_CONTROL_MODE_AUTO_CONTROL );
+        return constants;
+    }
+
+    @ReactMethod
+    public void setReaderMode( String mode ) {
+        try{
+            reader.setProperty( BarcodeReader.PROPERTY_TRIGGER_CONTROL_MODE, mode );
+        }catch( UnsupportedPropertyException e ) {
+            e.getMessage();
+        }
     }
 
     @Override
