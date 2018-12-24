@@ -33,11 +33,12 @@
 
 
 ​```javascript
-import { getCodeData,
-		 destroyListener, 
-		 setAutomaticMode, 
-		 setManualMode
-         } 
+import { 
+	getCodeData,
+    destroyListener, 
+    setAutomaticMode, 
+    setManualMode
+ } 
  from "react-native-honeywell-barcode-scanner";
 
 //Use this method whenever you need it.
