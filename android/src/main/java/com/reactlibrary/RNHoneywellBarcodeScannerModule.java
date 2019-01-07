@@ -104,7 +104,8 @@ public class RNHoneywellBarcodeScannerModule extends ReactContextBaseJavaModule
     @ReactMethod
     public void setReaderMode( String mode ) {
         try {
-            reader.setProperty( BarcodeReader.PROPERTY_TRIGGER_CONTROL_MODE, mode );
+            if( reader != null )
+                reader.setProperty( BarcodeReader.PROPERTY_TRIGGER_CONTROL_MODE, mode );
         } catch( UnsupportedPropertyException e ) {
             e.getMessage();
         }
