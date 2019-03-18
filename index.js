@@ -7,7 +7,10 @@ import { NativeModules, DeviceEventEmitter } from "react-native";
  */
 
 const barCodeScanned = ( callback ) => {
-    DeviceEventEmitter.addListener( "io.ibsgroup.codeCaptured", callback );
+    DeviceEventEmitter.addListener( "io.ibsgroup.codeCaptured", ( data ) => {
+        if( data )
+            callback( data );
+    });
 };
 
 /** This method removes all the codebar sensor listeners. */
