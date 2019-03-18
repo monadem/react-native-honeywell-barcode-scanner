@@ -83,6 +83,7 @@ public class RNHoneywellBarcodeScannerModule extends ReactContextBaseJavaModule
                 properties.put( BarcodeReader.PROPERTY_INTERLEAVED_25_ENABLED, false );
                 properties.put( BarcodeReader.PROPERTY_PDF_417_ENABLED, false );
                 properties.put( BarcodeReader.PROPERTY_CODE_39_MAXIMUM_LENGTH, 10 );
+                properties.put( BarcodeReader.PROPERTY_CODE_39_MAXIMUM_LENGTH, 1000 );
                 properties.put( BarcodeReader.PROPERTY_CENTER_DECODE, true );
                 properties.put( BarcodeReader.PROPERTY_NOTIFICATION_BAD_READ_ENABLED, false );
 
