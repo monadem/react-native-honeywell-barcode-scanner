@@ -10,7 +10,7 @@ const startReader = async () => {
     await NativeModules.RNHoneywellBarcodeScanner.startReader();
 }
 
-const barCodeScanned = async ( callback ) => {
+const barcodeScanned = async ( callback ) => {
     await NativeModules.RNHoneywellBarcodeScanner.startReader();
     DeviceEventEmitter.addListener( "io.ibsgroup.codeCaptured", ( data ) => {
         if( data )
@@ -42,7 +42,7 @@ const setManualMode = () => {
 };
 
 module.exports = {
-    barCodeScanned,
+    barcodeScanned,
     destroyListeners,
     setAutomaticMode,
     setManualMode,
