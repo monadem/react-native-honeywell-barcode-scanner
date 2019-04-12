@@ -6,6 +6,10 @@ import { NativeModules, DeviceEventEmitter } from "react-native";
  * whenever it emitted, and execute the callback.
  */
 
+const startReader = async () => {
+    await NativeModules.RNHoneywellBarcodeScanner.startReader();
+}
+
 const barCodeScanned = async ( callback ) => {
     await NativeModules.RNHoneywellBarcodeScanner.startReader();
     DeviceEventEmitter.addListener( "io.ibsgroup.codeCaptured", ( data ) => {
@@ -41,5 +45,6 @@ module.exports = {
     barCodeScanned,
     destroyListeners,
     setAutomaticMode,
-    setManualMode
+    setManualMode,
+    startReader
 };
