@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
+import android.media.ToneGenerator;
+import android.media.AudioManager;
 
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -147,6 +149,9 @@ public class RNHoneywellBarcodeScannerModule extends ReactContextBaseJavaModule
 
         this.reactContext.getJSModule( DeviceEventManagerModule.RCTDeviceEventEmitter.class )
             .emit( "io.ibsgroup.codeCaptured", barcodeData );
+        
+        ToneGenerator beep = new ToneGenerator( AudioManager.STREAM_MUSIC, 1600 );
+        beep.startTone( ToneGenerator.TONE_CDMA_ABBR_ALERT, 700 );
     }
 
     @Override
