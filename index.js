@@ -2,42 +2,52 @@
 
 import { NativeModules, DeviceEventEmitter } from "react-native";
 
-/** The following method listens to the codebar sensor reader event
+const BarcodeScanner = NativeModules.RNHoneywellBarcodeScanner;
+
+/** This method create a new instance of the barcode reader. */
+const startReader = async () => {
+    await BarcodeScanner.startReader();
+}
+
+/** The following method listens to the barcode sensor reader event
  * whenever it emitted, and execute the callback.
  */
-
-const barCodeScanned = ( callback ) => {
+const barcodeScanned = async ( callback ) => {
+    await BarcodeScanner.startReader();
     DeviceEventEmitter.addListener( "io.ibsgroup.codeCaptured", ( data ) => {
         if( data )
             callback( data );
     });
 };
 
-/** This method removes all the codebar sensor listeners. */
-
+/** This method removes all the barcode sensor listeners. */
 const destroyListeners = () => {
     DeviceEventEmitter.removeAllListeners( "io.ibsgroup.codeCaptured" );
+    BarcodeScanner.stopReader();
 };
 
-/** This method sets the bar code reader to automatic mode.  */
-
+/** This method sets the barcode reader to automatic mode.  */
 const setAutomaticMode = () => { 
-    NativeModules.RNHoneywellBarcodeScanner.setReaderMode(
-        NativeModules.RNHoneywellBarcodeScanner.AUTOMATIC 
+    BarcodeScanner.setReaderMode(
+        BarcodeScanner.AUTOMATIC 
     );
 };
 
-/** This method sets the bar code reader to manual mode.  */
-
+/** This method sets the barcode reader to manual mode.  */
 const setManualMode = () => {
-    NativeModules.RNHoneywellBarcodeScanner.setReaderMode(
-        NativeModules.RNHoneywellBarcodeScanner.MANUAL 
+    BarcodeScanner.setReaderMode(
+        BarcodeScanner.MANUAL 
     );
 };
+
+/** This method stops the barcode reader. */
+const stopReader = () => BarcodeScanner.stopReader()
 
 module.exports = {
-    barCodeScanned,
+    barcodeScanned,
     destroyListeners,
     setAutomaticMode,
-    setManualMode
+    setManualMode,
+    startReader,
+    stopReader
 };

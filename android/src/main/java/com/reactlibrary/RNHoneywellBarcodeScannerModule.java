@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
+import android.media.ToneGenerator;
+import android.media.AudioManager;
 
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -42,9 +44,31 @@ public class RNHoneywellBarcodeScannerModule extends ReactContextBaseJavaModule
     public RNHoneywellBarcodeScannerModule( ReactApplicationContext reactContext ) {
         super( reactContext );
         this.reactContext = reactContext;
+    }
 
-		AidcManager.create(
-            RNHoneywellBarcodeScannerModule.this.reactContext, 
+    @Override
+    public Map<String, Object> getConstants() {
+        final Map<String, Object> constants = new HashMap<>();
+        constants.put( MANUAL_CONTROL, BarcodeReader.TRIGGER_CONTROL_MODE_CLIENT_CONTROL );
+        constants.put( AUTOMATIC_CONTROL, BarcodeReader.TRIGGER_CONTROL_MODE_AUTO_CONTROL );
+        return constants;
+    }
+
+    @ReactMethod
+    public void setReaderMode( String mode ) {
+        try {
+            if( reader != null )
+                reader.setProperty( BarcodeReader.PROPERTY_TRIGGER_CONTROL_MODE, mode );
+
+        } catch( UnsupportedPropertyException e ) {
+            e.getMessage();
+        }
+    }
+
+    @ReactMethod
+    public void startReader() {
+        AidcManager.create(
+            this.reactContext, 
             new AidcManager.CreatedCallback() {
 
             @Override
@@ -60,7 +84,7 @@ public class RNHoneywellBarcodeScannerModule extends ReactContextBaseJavaModule
                     reader.setProperty( 
                         BarcodeReader.PROPERTY_TRIGGER_CONTROL_MODE,
                         BarcodeReader.TRIGGER_CONTROL_MODE_CLIENT_CONTROL 
-                        );
+                    );
                 } catch ( ScannerUnavailableException e ) {
                     e.printStackTrace();
                 } catch ( UnsupportedPropertyException e ) {
@@ -82,7 +106,6 @@ public class RNHoneywellBarcodeScannerModule extends ReactContextBaseJavaModule
                 properties.put( BarcodeReader.PROPERTY_CODABAR_ENABLED, false );
                 properties.put( BarcodeReader.PROPERTY_INTERLEAVED_25_ENABLED, false );
                 properties.put( BarcodeReader.PROPERTY_PDF_417_ENABLED, false );
-                properties.put( BarcodeReader.PROPERTY_CODE_39_MAXIMUM_LENGTH, 10 );
                 properties.put( BarcodeReader.PROPERTY_CODE_39_MAXIMUM_LENGTH, 1000 );
                 properties.put( BarcodeReader.PROPERTY_CENTER_DECODE, true );
                 properties.put( BarcodeReader.PROPERTY_NOTIFICATION_BAD_READ_ENABLED, false );
@@ -94,22 +117,25 @@ public class RNHoneywellBarcodeScannerModule extends ReactContextBaseJavaModule
         } );
     }
 
-    @Override
-    public Map<String, Object> getConstants() {
-        final Map<String, Object> constants = new HashMap<>();
-        constants.put( MANUAL_CONTROL, BarcodeReader.TRIGGER_CONTROL_MODE_CLIENT_CONTROL );
-        constants.put( AUTOMATIC_CONTROL, BarcodeReader.TRIGGER_CONTROL_MODE_AUTO_CONTROL );
-        return constants;
-    }
-
     @ReactMethod
-    public void setReaderMode( String mode ) {
-        try {
-            if( reader != null )
-                reader.setProperty( BarcodeReader.PROPERTY_TRIGGER_CONTROL_MODE, mode );
-        } catch( UnsupportedPropertyException e ) {
-            e.getMessage();
+    public void stopReader() {
+        if( reader != null ) {
+
+            /* Release the reader. */
+            reader.release();
+
+            /* Close BarcodeReader to clean up resources.
+               Once closed, the object can no longer be used. */
+            reader.close();
         }
+
+        if(manager != null) {
+
+            /* Close AidcManager to disconnect from the scanner service.
+               Once closed, the object can no longer be used. */
+            manager.close();
+        }
+
     }
 
     @Override
@@ -123,6 +149,9 @@ public class RNHoneywellBarcodeScannerModule extends ReactContextBaseJavaModule
 
         this.reactContext.getJSModule( DeviceEventManagerModule.RCTDeviceEventEmitter.class )
             .emit( "io.ibsgroup.codeCaptured", barcodeData );
+        
+        ToneGenerator beep = new ToneGenerator( AudioManager.STREAM_MUSIC, 1600 );
+        beep.startTone( ToneGenerator.TONE_CDMA_ABBR_ALERT, 700 );
     }
 
     @Override
@@ -135,12 +164,13 @@ public class RNHoneywellBarcodeScannerModule extends ReactContextBaseJavaModule
     public void onTriggerEvent( TriggerStateChangeEvent triggerStateChangeEvent ) {
 
         try {
-            if ( triggerStateChangeEvent.getState() ) {
+            if( triggerStateChangeEvent.getState() ) {
                 reader.aim( !triggerState );
                 reader.light( !triggerState );
                 reader.decode( !triggerState );
                 triggerState = !triggerState;
             }
+
         } catch ( ScannerUnavailableException e ) {
             e.printStackTrace();
         } catch ( ScannerNotClaimedException e ) {
