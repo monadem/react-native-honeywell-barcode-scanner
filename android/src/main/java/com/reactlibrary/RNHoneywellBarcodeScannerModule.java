@@ -59,6 +59,7 @@ public class RNHoneywellBarcodeScannerModule extends ReactContextBaseJavaModule
         try {
             if( reader != null )
                 reader.setProperty( BarcodeReader.PROPERTY_TRIGGER_CONTROL_MODE, mode );
+
         } catch( UnsupportedPropertyException e ) {
             e.getMessage();
         }
@@ -127,6 +128,7 @@ public class RNHoneywellBarcodeScannerModule extends ReactContextBaseJavaModule
                Once closed, the object can no longer be used. */
             reader.close();
         }
+
         if(manager != null) {
 
             /* Close AidcManager to disconnect from the scanner service.
@@ -162,12 +164,13 @@ public class RNHoneywellBarcodeScannerModule extends ReactContextBaseJavaModule
     public void onTriggerEvent( TriggerStateChangeEvent triggerStateChangeEvent ) {
 
         try {
-            if ( triggerStateChangeEvent.getState() ) {
+            if( triggerStateChangeEvent.getState() ) {
                 reader.aim( !triggerState );
                 reader.light( !triggerState );
                 reader.decode( !triggerState );
                 triggerState = !triggerState;
             }
+
         } catch ( ScannerUnavailableException e ) {
             e.printStackTrace();
         } catch ( ScannerNotClaimedException e ) {
