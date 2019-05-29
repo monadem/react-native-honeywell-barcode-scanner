@@ -56,8 +56,6 @@ public class RNHoneywellBarcodeScannerModule extends ReactContextBaseJavaModule
 
     @ReactMethod
     public void setReaderMode( String mode ) {
-
-        new RNHoneywellBarcodeScannerModule( this.reactContext );
         try {
             if( reader != null )
                 reader.setProperty( BarcodeReader.PROPERTY_TRIGGER_CONTROL_MODE, mode );
@@ -122,17 +120,17 @@ public class RNHoneywellBarcodeScannerModule extends ReactContextBaseJavaModule
     public void stopReader() {
         if( reader != null ) {
 
-            // Release the reader.
+            /* Release the reader. */
             reader.release();
 
-            // Close BarcodeReader to clean up resources.
-            // Once closed, the object can no longer be used.
+            /* Close BarcodeReader to clean up resources.
+               Once closed, the object can no longer be used. */
             reader.close();
         }
-        if (manager != null) {
+        if(manager != null) {
 
-            // Close AidcManager to disconnect from the scanner service.
-            // Once closed, the object can no longer be used.
+            /* Close AidcManager to disconnect from the scanner service.
+               Once closed, the object can no longer be used. */
             manager.close();
         }
 

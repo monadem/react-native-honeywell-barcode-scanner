@@ -2,49 +2,52 @@
 
 import { NativeModules, DeviceEventEmitter } from "react-native";
 
-/** The following method listens to the codebar sensor reader event
- * whenever it emitted, and execute the callback.
- */
+const barcodeScanner = NativeModules.RNHoneywellBarcodeScanner;
 
+/** This method create a new instance of the barcode reader. */
 const startReader = async () => {
-    await NativeModules.RNHoneywellBarcodeScanner.startReader();
+    await barcodeScanner.startReader();
 }
 
+/** The following method listens to the barcode sensor reader event
+ * whenever it emitted, and execute the callback.
+ */
 const barcodeScanned = async ( callback ) => {
-    await NativeModules.RNHoneywellBarcodeScanner.startReader();
+    await barcodeScanner.startReader();
     DeviceEventEmitter.addListener( "io.ibsgroup.codeCaptured", ( data ) => {
         if( data )
             callback( data );
     });
 };
 
-/** This method removes all the codebar sensor listeners. */
-
+/** This method removes all the barcode sensor listeners. */
 const destroyListeners = () => {
     DeviceEventEmitter.removeAllListeners( "io.ibsgroup.codeCaptured" );
-    NativeModules.RNHoneywellBarcodeScanner.stopReader();
+    barcodeScanner.stopReader();
 };
 
-/** This method sets the bar code reader to automatic mode.  */
-
+/** This method sets the barcode reader to automatic mode.  */
 const setAutomaticMode = () => { 
-    NativeModules.RNHoneywellBarcodeScanner.setReaderMode(
-        NativeModules.RNHoneywellBarcodeScanner.AUTOMATIC 
+    barcodeScanner.setReaderMode(
+        barcodeScanner.AUTOMATIC 
     );
 };
 
-/** This method sets the bar code reader to manual mode.  */
-
+/** This method sets the barcode reader to manual mode.  */
 const setManualMode = () => {
-    NativeModules.RNHoneywellBarcodeScanner.setReaderMode(
-        NativeModules.RNHoneywellBarcodeScanner.MANUAL 
+    barcodeScanner.setReaderMode(
+        barcodeScanner.MANUAL 
     );
 };
+
+/** This method stops the barcode reader. */
+const stopReader = () => barcodeScanner.stopReader()
 
 module.exports = {
     barcodeScanned,
     destroyListeners,
     setAutomaticMode,
     setManualMode,
-    startReader
+    startReader,
+    stopReader
 };
