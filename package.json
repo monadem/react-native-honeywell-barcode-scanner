@@ -1,18 +1,18 @@
 
 {
-  "name": "react-native-honeywell-barcode-scanner",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "react-native"
-  ],
-  "author": "",
-  "license": "",
-  "peerDependencies": {
-    "react-native": "^0.41.2"
-  }
+    "name": "react-native-honeywell-barcode-scanner",
+    "version": "2.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "react-native", "honeywell", "barcode reader", "barcode"
+    ],
+    "author": "IBS Group",
+    "license": "",
+    "peerDependencies": {
+        "react-native": "^0.41.2"
+    }
 }

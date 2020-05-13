@@ -4,50 +4,46 @@ import { NativeModules, DeviceEventEmitter } from "react-native";
 
 const BarcodeScanner = NativeModules.RNHoneywellBarcodeScanner;
 
-/** This method create a new instance of the barcode reader. */
-const startReader = async () => {
+/* Creates a new instance of the barcode reader. */
+const StartReader = async () => {
     await BarcodeScanner.startReader();
 }
 
-/** The following method listens to the barcode sensor reader event
- * whenever it emitted, and execute the callback.
- */
-const barcodeScanned = async ( callback ) => {
-    await BarcodeScanner.startReader();
+/* Listens to the barcode sensor reader event */
+const OnBarcodeScan = async ( callback ) => {
     DeviceEventEmitter.addListener( "io.ibsgroup.codeCaptured", ( data ) => {
         if( data )
             callback( data );
     });
 };
 
-/** This method removes all the barcode sensor listeners. */
-const destroyListeners = () => {
+/* Removes the barcode sensor listener. */
+const DestroyListener = () => {
     DeviceEventEmitter.removeAllListeners( "io.ibsgroup.codeCaptured" );
-    BarcodeScanner.stopReader();
 };
 
-/** This method sets the barcode reader to automatic mode.  */
-const setAutomaticMode = () => { 
+/* Sets the barcode reader's mode to automatic. */
+const SetAutomaticMode = () => { 
     BarcodeScanner.setReaderMode(
         BarcodeScanner.AUTOMATIC 
     );
 };
 
-/** This method sets the barcode reader to manual mode.  */
-const setManualMode = () => {
+/* Sets the barcode reader's mode to manual. */
+const SetManualMode = () => {
     BarcodeScanner.setReaderMode(
         BarcodeScanner.MANUAL 
     );
 };
 
-/** This method stops the barcode reader. */
-const stopReader = () => BarcodeScanner.stopReader()
+/* Stops the barcode reader. */
+const StopReader = () => BarcodeScanner.stopReader()
 
 module.exports = {
-    barcodeScanned,
-    destroyListeners,
-    setAutomaticMode,
-    setManualMode,
-    startReader,
-    stopReader
+    OnBarcodeScan,
+    DestroyListener,
+    SetAutomaticMode,
+    SetManualMode,
+    StartReader,
+    StopReader
 };
