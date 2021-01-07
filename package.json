@@ -1,7 +1,7 @@
 
 {
     "name": "react-native-honeywell-barcode-scanner",
-    "version": "2.0.0",
+    "version": "2.0.2",
     "description": "",
     "main": "index.js",
     "scripts": {
@@ -11,6 +11,11 @@
         "react-native", "honeywell", "barcode reader", "barcode"
     ],
     "author": "IBS Group",
+    "homepage": "https://github.com/ibsgroup/react-native-honeywell-barcode-scanner#readme",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ibsgroup/react-native-honeywell-barcode-scanner.git"
+    },
     "license": "",
     "peerDependencies": {
         "react-native": "^0.41.2"
