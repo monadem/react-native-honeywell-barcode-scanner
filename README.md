@@ -1,21 +1,22 @@
-
 # react-native-honeywell-barcode-scanner
 
-## Installation
+## Installation (Android only, iOS is not supported)
 
 `$ npm install react-native-honeywell-barcode-scanner --save`
 
 
-#### Android (iOS not supported)
+#### Android
 
 1. Open up `android/app/src/main/java/[...]/MainActivity.java`
-  - Add `import com.reactlibrary.RNHoneywellBarcodeScannerPackage;` to the imports at the top of the file
-  - Add `new RNHoneywellBarcodeScannerPackage()` to the list returned by the `getPackages()` method
+    - Add `import com.reactlibrary.RNHoneywellBarcodeScannerPackage;` to the imports at the top of the file
+    - Add `new RNHoneywellBarcodeScannerPackage()` to the list returned by the `getPackages()` method
+
 2. Append the following lines to `android/settings.gradle`:
       ```
       include ":react-native-honeywell-barcode-scanner"
       project( ":react-native-honeywell-barcode-scanner" ).projectDir = new File( rootProject.projectDir, "../node_modules/react-native-honeywell-barcode-scanner/android" )
       ```
+  
 3. Insert the following lines inside the dependencies block in `android/app/build.gradle`:
      ```
       implementation project( ":react-native-honeywell-barcode-scanner" )
